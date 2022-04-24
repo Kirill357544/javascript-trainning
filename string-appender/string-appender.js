@@ -12,11 +12,6 @@ function StringAppender() {
     };
 }
 
-let closers = StringAppender()("Hello")(", ")("World!");
-// closers("Hello");
-// closers(", ");
-// closers("World!");
-
 /*
  * Примеры использования функции
  */
