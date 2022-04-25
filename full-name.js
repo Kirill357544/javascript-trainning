@@ -6,15 +6,7 @@
  */
 function createFullName(person) {
     const nameParts = [person.firstName, person.middleName, person.lastName];
-    let result = "";
-
-    for (const namePart of nameParts) {
-        if (namePart !== null && namePart !== undefined) {
-            result += `${namePart} `;
-        }
-    }
-
-    return result.trim();
+    return nameParts.filter((part) => part != null).join(" ");
 }
 
 // Пример

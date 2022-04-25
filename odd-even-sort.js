@@ -32,8 +32,7 @@ function ascendingSort(prev, next) {
     return prev - next;
 }
 
-const sortedArray = [...getOddNumbers(array), ...getEvenNumbers(array)];
-console.log(sortedArray);
+const sortedArray = getOddNumbers(array).concat(getEvenNumbers(array));
 
 // ////////////////////////////////////////////////////////
 // 2. Сортировка через метод .sort()

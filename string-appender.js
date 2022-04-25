@@ -7,7 +7,6 @@ function StringAppender() {
 
     return function (string) {
         result += string;
-        console.log(result);
         return result;
     };
 }

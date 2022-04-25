@@ -1,14 +1,14 @@
 function Person(name) {
-	var self = this;
+    var self = this;
 
-	this.name = name;
+    this.name = name;
 
-	this.introduceTo = function (target) {
-		return 'Hello ' + target + ', I am ' + self.name;
-	};
+    this.introduceTo = function (target) {
+        return "Hello " + target + ", I am " + self.name;
+    };
 }
 
-var vladimir = new Person('Vladimir');
+var vladimir = new Person("Vladimir");
 
 //////////////////////
 
@@ -27,21 +27,31 @@ var vladimir = new Person('Vladimir');
  * @params {function} целевая функция шпионажа
  * @returns {function} функция, подставляемая вместо целевой
  */
+
 function spy(targetFn) {
-    // You code goes here...
+    executeTargetFn.lastCallArguments = null;
+    executeTargetFn.hasBeenCalled = false;
+    executeTargetFn.lastReturn = null;
+    executeTargetFn.calls = 0;
+
+    function executeTargetFn() {
+        executeTargetFn.lastReturn = targetFn(...arguments);
+        executeTargetFn.lastCallArguments = [...arguments];
+        executeTargetFn.hasBeenCalled = true;
+        executeTargetFn.calls++;
+        return executeTargetFn.lastReturn;
+    }
+
+    return executeTargetFn;
 }
 
 // Создаем шпиона на функцию "vladimir.introduceTo"
 vladimir.introduceTo = spy(vladimir.introduceTo);
 
 console.log(vladimir.introduceTo.hasBeenCalled); // -> false
-
-console.log(vladimir.introduceTo('Lola')); // -> Hello Lola, I am Vladimir
-
+console.log(vladimir.introduceTo("Lola")); // -> Hello Lola, I am Vladimir
 console.log(vladimir.introduceTo.hasBeenCalled); // -> true
+
 console.log(vladimir.introduceTo.calls); // -> 1
 console.log(vladimir.introduceTo.lastCallArguments); // -> ["Lola"];
 console.log(vladimir.introduceTo.lastReturn); // -> "Hello Lola, I am Vladimir"
-
-
-
