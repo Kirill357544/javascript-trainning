@@ -29,16 +29,16 @@ var vladimir = new Person("Vladimir");
  */
 
 function spy(targetFn) {
-    executeTargetFn.lastCallArguments = null;
     executeTargetFn.hasBeenCalled = false;
-    executeTargetFn.lastReturn = null;
     executeTargetFn.calls = 0;
+    executeTargetFn.lastCallArguments = null;
+    executeTargetFn.lastReturn = null;
 
     function executeTargetFn() {
-        executeTargetFn.lastReturn = targetFn(...arguments);
-        executeTargetFn.lastCallArguments = [...arguments];
         executeTargetFn.hasBeenCalled = true;
         executeTargetFn.calls++;
+        executeTargetFn.lastCallArguments = [...arguments];
+        executeTargetFn.lastReturn = targetFn(...arguments);
         return executeTargetFn.lastReturn;
     }
 
