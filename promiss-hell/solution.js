@@ -10,21 +10,34 @@
 const userService = new UserService();
 
 function userColleagues(userName) {
-    // Весь код должен располагаться в этой функции.
+    const colleagueMap = [];
+
+    return new Promise(function (resolve) {
+        userService
+            .getUser(userName)
+            .then((user) =>
+                userService
+                    .getUserProjectInfo(user.id)
+                    .then((projectInfo) =>
+                        userService
+                            .getProject(projectInfo.projectCodes[0])
+                            .then((project) =>
+                                userService.getProjectUsers(project.id).then((users) => resolve(users))
+                            )
+                    )
+            );
+    });
 }
-
-
 
 /*
  * Пример того как должна работать программа
  */
 
 // Имеется входной параметр - имя пользователя в система
-const username = 'icatbin';
+const username = "icatbin";
 
 // Вызов функции возвращает "обещание" с результируемой "картой коллег"
 userColleagues(username).then(function (colleagueMap) {
-
     // Где colleagueMap будет массив вида
     // colleagueMap = [
     //     {
@@ -46,4 +59,20 @@ userColleagues(username).then(function (colleagueMap) {
     // ];
 
     console.log(colleagueMap);
+});
+
+const prom = new Promise(function (res, rej) {
+    setTimeout(function () {
+        res("Kirill");
+    }, 1000);
+});
+
+prom.then((name) => {
+    console.log("fist promise");
+    return `My name is ${name}`;
+}).then((greetings) => {
+    console.log("second promise");
+    setTimeout(function () {
+        console.log(greetings);
+    }, 3000);
 });

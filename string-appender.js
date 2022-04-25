@@ -16,7 +16,8 @@ function StringAppender() {
  */
 
 // str1 = "Hello, World!"
-// var str1 = StringAppender()("Hello")(", ")("World!").toString();
+var str1 = StringAppender()("Hello")(", ")("World!").toString();
+console.log(str1);
 
 // str2 = "1234567890"
 // var str2 = StringAppender()("1")("2")("3")("4")("5")("6")("7")("8")("9")("0").toString();
