@@ -33,6 +33,7 @@ function ascendingSort(prev, next) {
 }
 
 const sortedArray = [...getOddNumbers(array), ...getEvenNumbers(array)];
+console.log(sortedArray);
 
 // ////////////////////////////////////////////////////////
 // 2. Сортировка через метод .sort()
