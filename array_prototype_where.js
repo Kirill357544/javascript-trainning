@@ -22,18 +22,27 @@ var array = [
 ];
 
 Array.prototype.where = function () {
-    let result = null;
+    let result;
 
     if (arguments.length === 2 && typeof arguments[0] === "string") {
-        const property = arguments[0];
-        const value = arguments[1];
-        result = this.filter((element) => element[property] === value);
+        result = stringWhere.call(this, ...arguments);
     } else if (arguments.length === 1 && typeof arguments[0] === "object" && arguments[0] !== null) {
-        const object = arguments[0];
-        result = this.filter((element) => Object.keys(object).every((key) => element[key] === object[key]));
+        result = objectWhere.call(this, ...arguments);
     }
+
     return result;
 };
+
+function stringWhere() {
+    const property = arguments[0];
+    const value = arguments[1];
+    return this.filter((element) => element[property] === value);
+}
+
+function objectWhere() {
+    const object = arguments[0];
+    return this.filter((element) => Object.keys(object).every((key) => element[key] === object[key]));
+}
 
 // Фильтрация по имению свойству и его значению
 array.where("type", "Cat"); // => [ { type: 'Cat', age: 4 } ];

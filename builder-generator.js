@@ -13,11 +13,10 @@ function Builder() {
     const propNames = [...arguments];
 
     return function () {
-        const propValues = [...arguments];
         const obj = {};
 
         for (let i = 0; i < propNames.length; i++) {
-            obj[propNames[i]] = propValues[i];
+            obj[propNames[i]] = arguments[i];
         }
 
         return obj;

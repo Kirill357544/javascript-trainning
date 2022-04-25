@@ -5,7 +5,12 @@
  * (или сразу нескольких частей) - тогда эти части должны игнорироваться.
  */
 function createFullName(person) {
-    return Object.values(person).join(" ").trim();
+    const personMap = new Map();
+    personMap.set("fisrtName", person.firstName);
+    personMap.set("middleName", person.middleName);
+    personMap.set("lastName", person.lastName);
+
+    // return Object.values(person).join(" ").trim();
 }
 
 // Пример
@@ -16,6 +21,7 @@ const person1 = {
 };
 
 const fullName1 = createFullName(person1);
+console.log(fullName1);
 // Должно получиться "James Carlos Carrington"
 
 const person2 = {
@@ -25,4 +31,5 @@ const person2 = {
 };
 
 const fullName2 = createFullName(person2);
+console.log(fullName2);
 // Должно получиться "Иван Петров"
