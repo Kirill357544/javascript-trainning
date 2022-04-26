@@ -3,11 +3,17 @@
  * Функция позволяет с помощью конвейерных вызовов производить конкатенацию строк.
  */
 function StringAppender() {
+    let counter = 0;
     let result = "";
 
     function append(string) {
         result += string;
-        return append();
+
+        (function () {
+            return result;
+        })();
+
+        return append;
     }
 
     return append;
@@ -18,8 +24,7 @@ function StringAppender() {
  */
 
 // str1 = "Hello, World!"
-var str1 = StringAppender()("Hello").toString();
-// var str1 = StringAppender()("Hello")(", ")("World!").toString();
+var str1 = StringAppender()("Hello")(", ")("World!").toString();
 console.log(str1);
 
 // str2 = "1234567890"

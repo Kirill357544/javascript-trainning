@@ -7,7 +7,6 @@
 
 // Для получения данных используется объект userService
 // (описание его методов и возвращаемых типов находится в ./api.js)
-const userService = new UserService();
 
 // function userColleagues(userName) {
 //     return new Promise(function (resolve) {
@@ -33,37 +32,8 @@ const userService = new UserService();
 //     });
 // }
 
-// let userName;
-// const projectsCode = [];
-// const colleagueMap = [];
-
-// function userColleagues(userName) {
-//     return new Promise(function (resolve) {
-//         userService
-//             .getUser(userName)
-//             .then(function (user) {
-//                 userName = user.username;
-//                 return userService.getUserProjectInfo(user.id);
-//             })
-//             .then(function (projectInfo) {
-//                 for (const iterator of projectInfo.projectCodes) {
-//                     userService.getProject(iterator).then(function (project) {
-//                         const projectTitle = project.title;
-//                         userService.getProjectUsers(project.id).then(function (projectUsers) {
-//                             const partners = projectUsers.filter((user) => user !== userName);
-//                             colleagueMap.push({
-//                                 projectTitle,
-//                                 users: partners,
-//                             });
-//                             return colleagueMap;
-//                         });
-//                     });
-//                 }
-//             });
-//     });
-// }
-
-const projectCodes = [];
+const userService = new UserService();
+const username = "izeiner";
 
 function userColleagues(userName) {
     const promise = new Promise(function (resolve) {
@@ -72,19 +42,19 @@ function userColleagues(userName) {
 
     promise
         .then(function (user) {
-            userName = user.username;
-            console.log(user);
             return userService.getUserProjectInfo(user.id);
         })
         .then(function (projectInfo) {
-            console.log(projectInfo);
-            for (const iterator of projectInfo.projectCodes) {
-                console.log(iterator);
-                projectCodes.push(iterator);
-            }
-            // console.log(projectCodes);
-        });
+            const codes = [];
 
+            for (const code of projectInfo.projectCodes) {
+                codes.push(new Promise(function(resolve){
+                    
+                }));
+            }
+
+            Promise.all(codes);
+        });
     return promise;
 }
 
