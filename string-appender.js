@@ -5,10 +5,12 @@
 function StringAppender() {
     let result = "";
 
-    return function (string) {
+    function append(string) {
         result += string;
-        return result;
-    };
+        return append();
+    }
+
+    return append;
 }
 
 /*
@@ -16,7 +18,8 @@ function StringAppender() {
  */
 
 // str1 = "Hello, World!"
-var str1 = StringAppender()("Hello")(", ")("World!").toString();
+var str1 = StringAppender()("Hello").toString();
+// var str1 = StringAppender()("Hello")(", ")("World!").toString();
 console.log(str1);
 
 // str2 = "1234567890"

@@ -1,12 +1,10 @@
 function Person(name) {
-    var self = this;
-
     this.name = name;
-
-    this.introduceTo = function (target) {
-        return "Hello " + target + ", I am " + self.name;
-    };
 }
+
+Person.prototype.introduceTo = function (target) {
+    return "Hello " + target + ", I am " + this.name;
+};
 
 var vladimir = new Person("Vladimir");
 
@@ -38,7 +36,7 @@ function spy(targetFn) {
         executeTargetFn.hasBeenCalled = true;
         executeTargetFn.calls++;
         executeTargetFn.lastCallArguments = [...arguments];
-        executeTargetFn.lastReturn = targetFn(...arguments);
+        executeTargetFn.lastReturn = targetFn.call(this, ...arguments);
         return executeTargetFn.lastReturn;
     }
 
