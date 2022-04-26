@@ -10,60 +10,86 @@
 const userService = new UserService();
 
 // function userColleagues(userName) {
-//     const colleagueMap = [];
-
 //     return new Promise(function (resolve) {
-//         userService
-//             .getUser(userName)
-//             .then((user) =>
-//                 userService
-//                     .getUserProjectInfo(user.id)
-//                     .then((projectInfo) =>
-//                         userService
-//                             .getProject(projectInfo.projectCodes[0])
-//                             .then((project) =>
-//                                 userService.getProjectUsers(project.id).then((users) => resolve(users))
-//                             )
-//                     )
-//             );
+//         userService.getUser(userName).then(function (user) {
+//             const userName = user.username;
+//             userService.getUserProjectInfo(user.id).then(function (projectInfo) {
+//                 const colleagueMap = [];
+//                 for (const iterator of projectInfo.projectCodes) {
+//                     userService.getProject(iterator).then(function (project) {
+//                         const projectTitle = project.title;
+//                         userService.getProjectUsers(project.id).then(function (projectUsers) {
+//                             const partners = projectUsers.filter((user) => user !== userName);
+//                             colleagueMap.push({
+//                                 projectTitle,
+//                                 users: partners,
+//                             });
+//                         });
+//                         resolve(colleagueMap);
+//                     });
+//                 }
+//             });
+//         });
 //     });
 // }
 
+// let userName;
+// const projectsCode = [];
+// const colleagueMap = [];
+
+// function userColleagues(userName) {
+//     return new Promise(function (resolve) {
+//         userService
+//             .getUser(userName)
+//             .then(function (user) {
+//                 userName = user.username;
+//                 return userService.getUserProjectInfo(user.id);
+//             })
+//             .then(function (projectInfo) {
+//                 for (const iterator of projectInfo.projectCodes) {
+//                     userService.getProject(iterator).then(function (project) {
+//                         const projectTitle = project.title;
+//                         userService.getProjectUsers(project.id).then(function (projectUsers) {
+//                             const partners = projectUsers.filter((user) => user !== userName);
+//                             colleagueMap.push({
+//                                 projectTitle,
+//                                 users: partners,
+//                             });
+//                             return colleagueMap;
+//                         });
+//                     });
+//                 }
+//             });
+//     });
+// }
+
+let userName;
+const projectCodes = [];
+
 function userColleagues(userName) {
-    return new Promise(function (resolve) {
-        userService.getUser(userName).then(function (user) {
-            resolve(userService.getUserProjectInfo(user.id));
-        });
+    const promise = new Promise(function (resolve) {
+        resolve(userService.getUser(userName));
     });
+
+    promise
+        .then(function (user) {
+            userName = user.username;
+            return userService.getUserProjectInfo(user.id);
+        })
+        .then(function (projectInfo) {
+            for (const iterator of projectInfo.projectCodes) {
+                projectCodes.push(iterator);
+            }
+            resolve(projectCodes);
+        });
+
+    return promise;
 }
 
-/*
- * Пример того как должна работать программа
- */
-
 // Имеется входной параметр - имя пользователя в система
-const username = "icatbin";
+const username = "izeiner";
 
 // Вызов функции возвращает "обещание" с результируемой "картой коллег"
 userColleagues(username).then(function (colleagueMap) {
     console.log(colleagueMap);
-    // Где colleagueMap будет массив вида
-    // colleagueMap = [
-    //     {
-    //         projectTitle: 'Project Title 1', // Наименование проекта
-    //         users: [ // Массив полных(!) имен коллег указанного сотрудника (исключая самого сотрудника(!))
-    //             'Ivanov Ivan',
-    //             'Petrov Petr',
-    //             'Sidorov Semen'
-    //         ],
-    //     },
-    //     {
-    //         projectTitle: 'Project Title 2',
-    //         users: [
-    //             'Petrov Petr',
-    //             'Kovalev Vasily'
-    //         ],
-    //     },
-    //     // ...
-    // ];
 });
