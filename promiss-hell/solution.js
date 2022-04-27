@@ -11,19 +11,10 @@ const username = "izeiner";
 function userColleagues(userName) {
     return userService
         .getUser(userName)
-        .then(function (user) {
-            return userService.getUserProjectInfo(user.id);
-        })
+        .then((user) => userService.getUserProjectInfo(user.id))
         .then(function (projectInfo) {
-            const projects = [];
-
-            for (const code of projectInfo.projectCodes) {
-                projects.push(userService.getProject(code));
-            }
-
-            return Promise.all(projects).then(function (projects) {
-                return projects;
-            });
+            const projects = projectInfo.projectCodes.map((code) => userService.getProject(code));
+            return Promise.all(projects).then((projects) => projects);
         })
         .then(function (projects) {
             const colleagueMap = [];
@@ -40,7 +31,6 @@ function userColleagues(userName) {
                 for (let i = 0; i < colleagues.length; i++) {
                     colleagueMap[i].users = colleagues[i].filter((colleague) => colleague !== userName);
                 }
-
                 return colleagueMap;
             });
         });
